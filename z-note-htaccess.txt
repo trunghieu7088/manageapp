@@ -1,0 +1,1 @@
+file htaccess dùng để redirect all redirect to index.html file trên shared hosting
