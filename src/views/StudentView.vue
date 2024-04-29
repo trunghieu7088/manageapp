@@ -2,6 +2,7 @@
 import { ref, onMounted, onBeforeMount } from 'vue'
 import { userData } from '@/stores/authStore/authStore.js'
 import Skeleton from 'primevue/skeleton';
+import AddStudent from '@/components/fee/AddStudent.vue'
 
 const turn_off_ske=ref(true);
 onMounted(() => {
@@ -25,5 +26,5 @@ onMounted(() => {
     </div>
 
     <button class="btn btn-danger" @click="turnoffske">Turn off</button>
-   
+    <AddStudent></AddStudent>
 </template>
