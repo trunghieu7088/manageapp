@@ -6,8 +6,10 @@ import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
 import Calendar from 'primevue/calendar';
 import InputText from 'primevue/inputtext';
+import { useToast } from 'primevue/usetoast';
 
 const visible=ref(false);
+const toast = useToast();
 
 const class_collection=ref([
     {className:'1',classValue:'1'},
@@ -27,15 +29,30 @@ const start_date=ref(null);
 function openModal()
 {
     visible.value=true;
-    studentName.value=null;
-    fee.value=null;
-    selected_class.value=null;
-    start_date.value=null;
+    resetModal()
+}
+
+function resetModal()
+{
+  studentName.value=null;
+  fee.value=null;
+  selected_class.value=null;
+  start_date.value=null;
 
 }
 
 async function addStudent()
 {    
+  if(studentName.value==null || fee.value==null || selected_class.value==null || start_date.value==null)
+  {
+    toast.add({
+      severity: 'warn',
+      summary: 'Info',
+      detail: 'Please enter information',
+      life: 3000 // Optional: Duration in milliseconds (default: 3000)
+      });       
+      return ;
+  }
     await axios.post('api/addstudent',{
         studentName: studentName.value,
         selected_class: selected_class.value.classValue,
@@ -57,6 +74,8 @@ async function addStudent()
       detail: 'Add student successfully',
       life: 3000 // Optional: Duration in milliseconds (default: 3000)
       });       
+      visible.value=false;
+      resetModal();
     }
             
   })
