@@ -29,3 +29,15 @@ import Footer from '../components/layout/Footer.vue'
   </div>
 
 </template>
+
+<style>
+.unpaid_class
+{
+  background-color:#f6cdcd !important;
+  
+}
+.paid_class
+{
+  background-color: #85bb65 !important;
+}
+</style>

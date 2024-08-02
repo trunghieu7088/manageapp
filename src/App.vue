@@ -1,10 +1,6 @@
 <script setup>
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 
-//import { userData } from '@/stores/authStore/authStore.js'
-
-//const dataRoute=useRoute();
-//const router=useRouter();
 
 </script>
 

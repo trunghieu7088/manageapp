@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import axios from "axios"
 
 import Dialog from 'primevue/dialog';
@@ -8,23 +8,43 @@ import Calendar from 'primevue/calendar';
 import InputText from 'primevue/inputtext';
 import { useToast } from 'primevue/usetoast';
 
-const visible=ref(false);
+import { studentManage } from '@/stores/studentStore/studentManage.js'
+
+//define folder student , filter and state
+const student_Manage=studentManage();
+
+//define toast for displaying message
 const toast = useToast();
 
+//define student class and other variable
 const class_collection=ref([
     {className:'1',classValue:'1'},
     {className:'2',classValue:'2'},
     {className:'3',classValue:'3'},
     {className:'4',classValue:'4'},
     {className:'5',classValue:'5'},
-    {className:'6',classValue:'5'}, 
+    {className:'6',classValue:'6'}, 
+    {className:'7',classValue:'7'}, 
+    {className:'8',classValue:'8'}, 
+    {className:'9',classValue:'9'}, 
+    {className:'10',classValue:'10'}, 
+    {className:'11',classValue:'11'}, 
+    {className:'12',classValue:'12'}, 
     {className:'Toeic Class',classValue:'Toeic'}, 
+    {className:'Custom Class',classValue:'Custom'}, 
 ])
 
 const studentName=ref(null);
 const fee=ref(null);
 const selected_class=ref(null);
 const start_date=ref(null);
+
+//define status to show or hide modal add student
+const visible=ref(false);
+
+const popoverVisisible=ref(false);
+
+//define function
 
 function openModal()
 {
@@ -38,7 +58,18 @@ function resetModal()
   fee.value=null;
   selected_class.value=null;
   start_date.value=null;
+}
 
+function toggleHelp()
+{
+  if(popoverVisisible.value==false)
+  {
+    popoverVisisible.value=true;
+  }
+  else
+  {
+    popoverVisisible.value=false;
+  }
 }
 
 async function addStudent()
@@ -67,12 +98,13 @@ async function addStudent()
   .then(function (response) {
     if(response.data.success==true)
     {
-
+      student_Manage.update_selected_folder('Active');       
+      student_Manage.get_student_list('Active');
       toast.add({
-      severity: 'success',
-      summary: 'Info',
-      detail: 'Add student successfully',
-      life: 3000 // Optional: Duration in milliseconds (default: 3000)
+        severity: 'success',
+        summary: 'Info',
+        detail: 'Add student successfully',
+        life: 3000 // Optional: Duration in milliseconds (default: 3000)
       });       
       visible.value=false;
       resetModal();
@@ -82,19 +114,33 @@ async function addStudent()
   .catch(function (error) {
     console.log(error);
   });
-
-    console.log(start_date.value.toLocaleDateString('en-CA',{
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    }));  
-    console.log(start_date.value); 
-    console.log(selected_class.value.classValue);
 }
+
+//track selected folder for fetching the student list
+watch(() => student_Manage.selected_folder_status, (newValue) => {  
+  student_Manage.get_student_list(newValue);
+  
+})
+
+
 </script>
 
 <template>
-<button @click="openModal" class="btn btn-danger">Open Modal</button>
+  <div class="add-filter-student-area">
+    <button @click="openModal" class="btn btn-primary btn-open-modal-add-student"><i class="fas fa-plus"></i> Add student</button>    
+    <div class="folder-student-area">        
+        <Dropdown v-model="student_Manage.selected_folder" :options="student_Manage.student_folder" optionLabel="statusName" placeholder="Active"  class="w-full md:w-5rem folder_list" />
+        <button type="button" class="btn question-cirle-help" @click="toggleHelp">
+          <i class="fas fa-question-circle"></i>
+        </button>
+    </div>
+    
+  </div>
+<Dialog v-model:visible="popoverVisisible" modal header="Student Folder Define">
+<p>Active: Students are currently enrolled.</p>
+<p>Debt: Students have stopped attending classes and have unpaid fees.</p>
+<p>Closed: Students have withdrawn from the class.</p>
+</Dialog>  
 <Dialog v-model:visible="visible" modal header="Add Student" style="width:30%">
     <form @submit.prevent="addStudent">
   <div class="form-group">
@@ -122,3 +168,34 @@ async function addStudent()
 </Dialog>
 
 </template>
+
+<style>
+.btn-open-modal-add-student
+{
+  margin-bottom: 10px;
+}
+.btn-open-modal-add-student i
+{
+  margin-right:5px;
+}
+.add-filter-student-area
+{
+  width:100%;
+  display:flex;
+  justify-content: space-between;
+  margin-bottom:15px;
+}
+.add-filter-student-area .folder_list
+{
+  display:flex;
+  align-items: center;
+}
+.folder-student-area
+{
+  display: flex;
+}
+.question-cirle-help
+{
+  font-size: 20px;
+}
+</style>

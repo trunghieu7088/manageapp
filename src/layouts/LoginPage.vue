@@ -15,14 +15,13 @@ const password=ref(null);
 }
 
 onMounted(async()=>{
-  console.log('mount login');
     document.querySelector("body").classList.add('hold-transition'); 
     document.querySelector("body").classList.add('login-page');          
     document.querySelector("body").style="min-height:800px;";
 });
 
 onUnmounted(async()=>{
-  console.log('unmount login');
+  
   document.querySelector("body").classList.remove('hold-transition'); 
       document.querySelector("body").classList.remove('login-page');      
       document.querySelector("body").style="min-height:800px;";
@@ -45,7 +44,7 @@ onUnmounted(async()=>{
 
       <form id="login" @submit.prevent="dologin">
         <div class="input-group mb-3">
-          <input type="text" v-model="email" class="form-control" placeholder="Username">
+          <input type="text" v-model="email" class="form-control" placeholder="Email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>

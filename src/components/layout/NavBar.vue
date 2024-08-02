@@ -1,6 +1,10 @@
  <script setup>
  import { userData } from '@/stores/authStore/authStore.js'
 
+ import { manageUIStore } from '@/stores/manage-ui.js'
+
+const overlay_display= manageUIStore();
+
 const authUser= userData();
 
 </script>
@@ -10,7 +14,7 @@ const authUser= userData();
     <ul class="navbar-nav">
       
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a @click="overlay_display.switch_overlay_sidebar()" class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
 
       <li>

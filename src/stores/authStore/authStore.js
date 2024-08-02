@@ -10,18 +10,17 @@ export const userData = defineStore('userData', () => {
   const isLogin= ref(null)
   const router=useRouter();
   const toast = useToast();
+  const user_display=ref(null);
 
   const getuserData = computed(() =>{
         return info.value;
   }) 
 
-  const isAuthenticated = computed(()=>{
-      return isLogin.value;
-  })
 
   function setuserData(userinfo) {
     info.value=userinfo;
     isLogin.value=true;
+    user_display.value=userinfo.name;
   }
 
   function unsetUserData()
@@ -128,5 +127,5 @@ async function login(email,password)
 
 
         
-  return { userData, getuserData, isAuthenticated, isLogin, setuserData , unsetUserData, checkAuth, logout, login}
+  return { userData, getuserData, isLogin, user_display, setuserData , unsetUserData, checkAuth, logout, login}
 })

@@ -1,12 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { userData } from '@/stores/authStore/authStore.js'
+
 const dataRoute=useRoute();
 const menu_item_list=ref({
       manageFee: false,
       manageAccount: false,
 });
 
+const user_info=userData();
 
 function expandMenu(menuItem)
 {
@@ -38,7 +41,7 @@ function expandMenu(menuItem)
           <img src="@/assets/admin/imgs/web_owner.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Bo Meo</a>
+          <a href="#" class="d-block">{{user_info.user_display}}</a>
         </div>
       </div>
 

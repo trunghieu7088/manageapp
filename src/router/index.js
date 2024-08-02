@@ -1,7 +1,12 @@
 import { createRouter, createWebHistory, useRoute, useRouter } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+
+//student management
 import StudentView from '@/views/StudentView.vue'
+import FeeView from '@/views/FeeView.vue'
+
 import AccountView from '@/views/AccountView.vue'
+
 
 import AdminPage from '@/layouts/AdminPage.vue'
 import LoginPage from '@/layouts/LoginPage.vue'
@@ -29,6 +34,12 @@ const router = createRouter({
           name: 'students',
           component: StudentView,
           meta: { title: 'Student List' , menuParent:'manageFee'}
+        },
+        {
+          path: '/feepage/:id',
+          name: 'feepage',
+          component: FeeView,
+          meta: { title: 'Fee List' , menuParent:'manageFee'}
         },
         {
           path: '/accounts',
