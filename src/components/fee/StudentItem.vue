@@ -5,9 +5,13 @@ import OverlayPanel from 'primevue/overlaypanel';
 
 import { studentManage } from '@/stores/studentStore/studentManage.js'
 import { useToast } from 'primevue/usetoast';
+import { useConfirm } from "primevue/useconfirm";
+
 
 //define toast for displaying message
 const toast = useToast();
+
+const custom_confirm=useConfirm();
 
 //define folder student , filter and state
 const student_Manage=studentManage();
@@ -20,6 +24,12 @@ const props = defineProps({
     start_date: String,    
     start_date_formatted: String,
     unpaid_month: Number,
+    note: String,
+    status_record: String,
+    created_at: String,
+    updated_at: String,
+    full_name_with_class: String,
+    student_fee_lists: Array,
   })
 
   const classGrade=computed(()=>{
@@ -53,9 +63,40 @@ const props = defineProps({
       });     
       toggleOverlay();  
   }
+  async function delete_student(id_student)
+  {
+    const delete_result=await student_Manage.delete_student(id_student);        
+    if(delete_result==true)
+    {     
+      student_Manage.update_selected_folder(student_Manage.selected_folder_status);  
+      student_Manage.get_student_list(student_Manage.selected_folder_status);
+      toast.add({
+        severity: 'success',
+        summary: 'Info',
+        detail: 'deleted student successfully',
+        life: 3000 // Optional: Duration in milliseconds (default: 3000)
+      });     
+    }
+    
+  }
 
+  function call_confirm(id_student)
+  {
+    custom_confirm.require({
+        message: 'Are you sure you want to delete this student?',
+        header: 'Delete Student',
+        icon: 'icon-delete',
+        rejectLabel: 'Cancel',
+        acceptLabel: 'Delete',
+        acceptClass: 'p-button-danger',       
+        accept: () => {
+            // Your delete logic here            
+            delete_student(id_student);
+        },
+    });
+  }
 </script>
-<template>
+<template>  
     <tr :class="unpaid_class">
         <td>{{ name }}</td>
         <td>{{ start_date_formatted }}</td>
@@ -64,10 +105,12 @@ const props = defineProps({
         <td>{{ unpaid_month }}</td>
         <td>
           <RouterLink class="btn bg-primary" :to="'feepage/'+id">
-            <i class="fas fa-edit"></i>
-            Fee                             
+            <i class="fas fa-edit"></i>                                       
           </RouterLink> 
-          <button @click="toggleOverlay($event)" class="btn bg-info btn-move-student"><i class="fas fa-folder-open"></i> Move</button>
+          <button class="btn bg-warning btn-move-student"><i class="fas fa-user-edit"></i></button>
+          <button @click="toggleOverlay($event)" class="btn bg-info btn-move-student"><i class="fas fa-folder-open"></i></button>          
+          <button @click="call_confirm(id)" class="btn bg-danger btn-move-student"><i class="fas fa-trash"></i></button>
+          
         </td>
     </tr>
     <OverlayPanel class="move-area-action" ref="overlayPanel" :dismissable="true">
@@ -79,7 +122,7 @@ const props = defineProps({
 <style>
 .btn-move-student
 {
-  margin-left:10px;
+  margin-left:10px;  
 }
 .move-area-action
 {

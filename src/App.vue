@@ -7,6 +7,7 @@ import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 <template>   
   <RouterView/>
   <ToastMessage></ToastMessage>
+  <ConfirmDialogPrime></ConfirmDialogPrime>
 </template>
 
 <style scoped>

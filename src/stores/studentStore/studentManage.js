@@ -51,5 +51,37 @@ export const studentManage = defineStore('studentManage', () => {
             })
             return temp_student_list;
     }
-    return { selected_folder , student_folder, selected_folder_status, get_student_list, update_selected_folder, student_list, move_student }
+
+    async function delete_student(id_student)
+    {      
+      let delete_result=false;
+      const delete_student_action= await axios.delete('api/deletestudent/'+id_student).then((response) =>
+        {                   
+          if(response.status==200)
+          {
+            delete_result=true;
+          }
+        }).catch(error => {
+                console.error("Error deleting student", error);
+            })            
+            return delete_result;
+    }
+
+    async function updateFeeStatus(id_month)
+    {
+      let update_result=false;
+      const update_result_action= await axios.put('api/updatemonthfeestatus/'+id_month).then((response) =>
+        {                   
+          if(response.status==200)
+          {
+            update_result=true;
+          }
+        }).catch(error => {
+                console.error("Error deleting student", error);
+            })            
+            return update_result;
+    }
+
+
+    return { selected_folder , student_folder, selected_folder_status, get_student_list, update_selected_folder, student_list, move_student, delete_student, updateFeeStatus }
 })

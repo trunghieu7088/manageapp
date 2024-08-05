@@ -37,7 +37,7 @@ import Footer from '../components/layout/Footer.vue'
   
 }
 .paid_class
-{
-  background-color: #85bb65 !important;
+{  
+  background: linear-gradient(109.6deg, rgb(102, 203, 149) 11.2%, rgb(39, 210, 175) 98.7%);
 }
 </style>

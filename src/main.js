@@ -22,8 +22,10 @@ import router from './router'
 import axios from "axios"
 import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
+import ConfirmationService from 'primevue/confirmationservice';
 
 import ToastMessage from './components/layout/ToastMessage.vue'
+import ConfirmDialogPrime from './components/layout/ConfirmDialogPrime.vue'
 import { userData } from '@/stores/authStore/authStore.js'
 
 
@@ -61,7 +63,11 @@ app.use(PrimeVue)
 
 app.use(ToastService)
 
+app.use(ConfirmationService)
+
 app.component('ToastMessage', ToastMessage)
+
+app.component('ConfirmDialogPrime', ConfirmDialogPrime)
 
 app.use(createPinia())
 
