@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^1.6.8",
     "bootstrap": "^4.6.0",
+    "chart.js": "^4.4.3",
     "jquery": "^3.7.1",
     "pinia": "^2.1.7",
     "primevue": "^3.51.0",

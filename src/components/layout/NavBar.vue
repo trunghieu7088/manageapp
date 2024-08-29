@@ -18,7 +18,7 @@ const authUser= userData();
       </li>
 
       <li>
-        <a @click="authUser.logout()" class="nav-link"  href="#">Logout</a>
+        <a @click.stop="authUser.logout()" href="#" class="nav-link">Logout</a>
       </li>
     
     </ul>

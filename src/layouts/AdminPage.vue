@@ -40,4 +40,8 @@ import Footer from '../components/layout/Footer.vue'
 {  
   background: linear-gradient(109.6deg, rgb(102, 203, 149) 11.2%, rgb(39, 210, 175) 98.7%);
 }
+.just_updated_class
+{
+  border:2px solid rgb(39, 210, 175) !important;
+}
 </style>

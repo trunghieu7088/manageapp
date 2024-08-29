@@ -4,31 +4,30 @@
 </script>
 <template>
 <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>                
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
 
             <div class="card card-primary card-outline">
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+                <h5 class="card-title">Managing Student</h5>
 
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
+                <p class="card-text custom-text-mg">
+                  You can add, edit or remove students by using the below links.
                 </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <RouterLink activeClass="active" to="/students" class="card-link">
+                  Student List         
+                </RouterLink>      
+
+                <RouterLink activeClass="active" to="/reports" class="card-link">
+                  Reports      
+                </RouterLink> 
+             
               </div>
             </div>
             
 </div>
 </template>
+<style>
+.custom-text-mg
+{
+  margin-top:30px;
+}
+</style>

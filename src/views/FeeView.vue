@@ -26,24 +26,29 @@ const start_date=ref(null);
 const end_date=ref(null);
 const month_fee=ref(null);
 const addMonthVisible=ref(false);
+const highlight_updated_fee=ref(null);
 
+const humanreadable_month_fee_addMonth=ref(null);
 
 onMounted(() => 
   {
     get_student_by_id(student_id);
   });
 
-  function get_student_by_id(student_id)
+  async function get_student_by_id(student_id,highlight_fee_row=null)
   {
     is_fetch_done.value=false;
     is_loading_state.value=true;
-     axios.get('api/getstudent/'+student_id).then((response) =>{
+   await axios.get('api/getstudent/'+student_id).then((response) =>{
 
         student_info.value=response.data.return_data.student;  
         fee_list.value=response.data.return_data.fee_list;          
         is_fetch_done.value=true;
         is_loading_state.value=false;
-
+        if(highlight_fee_row !=null)
+        {
+            highlight_updated_fee.value=highlight_fee_row;
+        }
      }).catch(error => {
             console.error("Error fetching student list:", error);
         })
@@ -60,6 +65,7 @@ onMounted(() =>
     start_date.value=null;
     end_date.value=null;
     month_fee.value=null;
+    humanreadable_month_fee_addMonth.value=null;
   }
 
   async function addMonthAction()
@@ -113,6 +119,10 @@ onMounted(() =>
     }
   }
 
+  function auto_format_addmonthFee()
+  {
+    humanreadable_month_fee_addMonth.value=(Number(month_fee.value).toLocaleString('en-US'));
+  }
 </script>
 <template>       
     <div class="fee-list-area">
@@ -127,7 +137,7 @@ onMounted(() =>
                 <i class="fas fa-arrow-left"></i>
                 <span>Student List</span>             
             </RouterLink>       
-            <p class="student_name_class">{{ student_info.name }} - Class: {{ student_info.class }}</p>                            
+            <p class="student_name_class"><strong>{{ student_info.name }} </strong> | Class: {{ student_info.class }}</p>                            
             <button class="btn btn-success" @click="showAddMonthModal"><i class="fas fa-plus"></i> Add month</button>
         </div>
 
@@ -143,7 +153,7 @@ onMounted(() =>
                         </tr>            
                     </thead>
                     <tbody>         
-                        <FeeItem v-for="feeItem in fee_list" @refresh-fee-list="get_student_by_id" v-bind="feeItem"></FeeItem>
+                        <FeeItem v-for="feeItem in fee_list" @refresh-fee-list="get_student_by_id" :highlight_updated="highlight_updated_fee" v-bind="feeItem"></FeeItem>
                     </tbody>
                 </table>
             </div>        
@@ -163,9 +173,9 @@ onMounted(() =>
             <Calendar v-model="end_date" dateFormat="dd/mm/yy" showIcon iconDisplay="input" showButtonBar/>
         </div>
         <div class="form-group">
-            <label>Month Fee</label>
+            <label>Month Fee | {{ humanreadable_month_fee_addMonth }}</label>
             <br>
-            <InputText type="text" style="width:100%" v-model="month_fee" />
+            <InputText type="text" style="width:100%" v-model="month_fee" @keyup="auto_format_addmonthFee"/>
         </div>
 
         <Button type="submit" label="Submit"></Button>

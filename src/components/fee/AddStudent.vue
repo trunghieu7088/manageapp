@@ -29,9 +29,8 @@ const class_collection=ref([
     {className:'9',classValue:'9'}, 
     {className:'10',classValue:'10'}, 
     {className:'11',classValue:'11'}, 
-    {className:'12',classValue:'12'}, 
-    {className:'Toeic Class',classValue:'Toeic'}, 
-    {className:'Custom Class',classValue:'Custom'}, 
+    {className:'12',classValue:'12'},         
+    {className:'Custom',classValue:'Custom'}, 
 ])
 
 const studentName=ref(null);
@@ -43,6 +42,8 @@ const start_date=ref(null);
 const visible=ref(false);
 
 const popoverVisisible=ref(false);
+
+const humanreadable_fee_add=ref(null);
 
 //define function
 
@@ -58,6 +59,7 @@ function resetModal()
   fee.value=null;
   selected_class.value=null;
   start_date.value=null;
+  humanreadable_fee_add.value=null;
 }
 
 function toggleHelp()
@@ -122,6 +124,10 @@ watch(() => student_Manage.selected_folder_status, (newValue) => {
   
 })
 
+function auto_format_addfee()
+{
+  humanreadable_fee_add.value=(Number(fee.value).toLocaleString('en-US'));
+}
 
 </script>
 
@@ -148,14 +154,14 @@ watch(() => student_Manage.selected_folder_status, (newValue) => {
     <InputText type="text" style="width:100%" v-model="studentName" /> 
   </div>
   <div class="form-group">
-    <label for="startDate">Fee</label>
+    <label for="startDate">Fee | {{ humanreadable_fee_add }}</label>
     <br>
-    <InputText type="text" style="width:100%" v-model="fee" />
+    <InputText type="number" style="width:100%" v-model="fee" @keyup="auto_format_addfee" />
   </div>
   <div class="form-group">
     <label for="studentClass">Class</label>
     <br>
-    <Dropdown v-model="selected_class" :options="class_collection" optionLabel="className" placeholder="Select a class"  class="w-full md:w-14rem"  style="width:50%"/>
+    <Dropdown v-model="selected_class" :options="class_collection" optionLabel="className"  placeholder="Select a class"  class="w-full md:w-14rem"  style="width:50%"/>
   </div>
   <div class="form-group">
     <label for="startDate">Start Date</label>

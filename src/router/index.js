@@ -4,9 +4,9 @@ import HomeView from '@/views/HomeView.vue'
 //student management
 import StudentView from '@/views/StudentView.vue'
 import FeeView from '@/views/FeeView.vue'
+import ReportView from '@/views/ReportView.vue'
 
 import AccountView from '@/views/AccountView.vue'
-
 
 import AdminPage from '@/layouts/AdminPage.vue'
 import LoginPage from '@/layouts/LoginPage.vue'
@@ -40,6 +40,12 @@ const router = createRouter({
           name: 'feepage',
           component: FeeView,
           meta: { title: 'Fee List' , menuParent:'manageFee'}
+        },
+        {
+          path: '/reports',
+          name: 'reports',
+          component: ReportView,
+          meta: { title: 'Report' , menuParent:'manageFee'}
         },
         {
           path: '/accounts',
