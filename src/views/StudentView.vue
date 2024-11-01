@@ -129,6 +129,7 @@ watch(() => student_Manage.student_list, (newValue) => {
     <table class="table table-striped table-bordered text-center">
         <thead class="thead-dark">
             <tr>
+            <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Start Date</th>
             <th scope="col">Class</th>
@@ -138,7 +139,7 @@ watch(() => student_Manage.student_list, (newValue) => {
             </tr>            
         </thead>
        <tbody>         
-          <StudentItem v-for="studentItem in student_Manage.student_list.return_data" v-bind="studentItem"></StudentItem>
+          <StudentItem v-for="(studentItem,index) in student_Manage.student_list.return_data" :index="index" v-bind="studentItem"></StudentItem>
        </tbody>
     </table>
   </div>        

@@ -39,6 +39,7 @@ const class_collection=ref([
 
 
 const props = defineProps({
+    index: Number,
     id: Number,    
     class: String,
     name: String,
@@ -196,6 +197,7 @@ const props = defineProps({
 </script>
 <template>  
     <tr @mouseover="remove_highlight_updated" :class="[unpaid_class, just_updated_class]">
+        <td>{{ index }}</td>
         <td>{{ name }}</td>
         <td>{{ start_date_formatted }}</td>
         <td>{{ classGrade }}</td>
