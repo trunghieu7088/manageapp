@@ -15,6 +15,9 @@ export const studentManage = defineStore('studentManage', () => {
     const student_list=ref(null);
 
     const temp_student_list=ref(null);
+    const search_keyword = ref(''); // Từ khóa tìm kiếm
+    const search_student_list = ref(null);
+
 
     const student_folder=ref([
         {statusName:'Active',statusValue:'Active'},
@@ -28,6 +31,17 @@ export const studentManage = defineStore('studentManage', () => {
             statusName: status,
             statusValue: status
           };
+    }
+
+    function searchStudent()
+    {
+      search_student_list.value = JSON.parse(JSON.stringify(student_list.value));
+      if (search_student_list.value && search_student_list.value.return_data) 
+          {
+          search_student_list.value.return_data = search_student_list.value.return_data.filter(item =>
+            item.name.toLowerCase().includes(search_keyword.value.toLowerCase())
+          );          
+      }
     }
 
     async function move_student(id,folder)
@@ -44,10 +58,12 @@ export const studentManage = defineStore('studentManage', () => {
     {
       
       await axios.get('api/getallstudent/'+status_record).then((response) =>{
-            student_list.value=response.data;  
-            temp_student_list.value=response.data;                       
+            student_list.value=response.data;              
+            temp_student_list.value=response.data;    
+           search_student_list.value=response.data;
+            
         }).catch(error => {
-                console.error("Error fetching student list:", error);
+                console.error("Error fetching student list:", error);                
             })
             return temp_student_list;
     }
@@ -83,5 +99,9 @@ export const studentManage = defineStore('studentManage', () => {
     }
 
 
-    return { selected_folder , student_folder, selected_folder_status, get_student_list, update_selected_folder, student_list, move_student, delete_student, updateFeeStatus }
+    return { selected_folder ,
+       student_folder, selected_folder_status,search_student_list,searchStudent,
+       temp_student_list, search_keyword,
+        get_student_list, update_selected_folder, 
+        student_list, move_student, delete_student, updateFeeStatus }
 })

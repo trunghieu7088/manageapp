@@ -18,7 +18,9 @@ const fetchStudents = async () => {
   {
     is_fetch_done.value=true;
     is_loading_state.value=false;    
+    
   }     
+
 }
 
 const summary_loader=ref(true);
@@ -139,7 +141,8 @@ watch(() => student_Manage.student_list, (newValue) => {
             </tr>            
         </thead>
        <tbody>         
-          <StudentItem v-for="(studentItem,index) in student_Manage.student_list.return_data" :index="index" v-bind="studentItem"></StudentItem>
+        <StudentItem v-for="(studentItem,index) in student_Manage.search_student_list.return_data" :index="index" v-bind="studentItem"></StudentItem>           
+          
        </tbody>
     </table>
   </div>        

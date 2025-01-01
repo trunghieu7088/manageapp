@@ -2,6 +2,9 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { userData } from '@/stores/authStore/authStore.js'
+import { studentManage } from '@/stores/studentStore/studentManage.js';
+
+const student_Manage = studentManage();
 
 const dataRoute=useRoute();
 const menu_item_list=ref({
@@ -23,6 +26,10 @@ function expandMenu(menuItem)
     }    
 }
 
+function searchStudent() {
+  console.log(student_Manage.search_keyword);  
+  student_Manage.searchStudent();
+}
 
 </script>
 <template>
@@ -42,6 +49,25 @@ function expandMenu(menuItem)
         </div>
         <div class="info">
           <a href="#" class="d-block">{{user_info.user_display}}</a>
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <!-- <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search"> -->
+          <input 
+            v-model="student_Manage.search_keyword" 
+            class="form-control form-control-sidebar" 
+            type="search" 
+            placeholder="Search" 
+            aria-label="Search"
+            @input="searchStudent">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
         </div>
       </div>
 
